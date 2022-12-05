@@ -33,7 +33,8 @@ EXTERNAL_APPS = [
 
 # Apps that we wrote
 CUSTOM_APPS = [
-    'newsly.accounts'
+    'newsly.accounts',
+    'newsly.news',
 ]
 
 INSTALLED_APPS = BASE_APPS + EXTERNAL_APPS + CUSTOM_APPS
