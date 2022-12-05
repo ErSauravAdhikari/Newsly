@@ -203,4 +203,12 @@ Q_CLUSTER = {
     'orm': 'default'
 }
 
+EMAIL_USE_SSL = True
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "465"))
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
 CSRF_TRUSTED_ORIGINS = ['https://**']
