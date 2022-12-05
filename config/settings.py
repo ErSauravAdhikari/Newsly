@@ -28,6 +28,7 @@ BASE_APPS = [
 # External Third Party Packages
 EXTERNAL_APPS = [
     'django_summernote',
+    'django_q',
 ]
 
 # Apps that we wrote
@@ -145,6 +146,7 @@ JAZZMIN_SETTINGS = {
     "changeform_format": "horizontal_tabs",
     "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
 }
+
 JAZZMIN_UI_TWEAKS = {
     "navbar_small_text": False,
     "footer_small_text": False,
@@ -176,6 +178,7 @@ JAZZMIN_UI_TWEAKS = {
         "success": "btn-outline-success"
     }
 }
+
 SUMMERNOTE_CONFIG = {
     'width': '100%',
     'toolbar': [
@@ -188,6 +191,16 @@ SUMMERNOTE_CONFIG = {
         ['view', ['fullscreen']],
         ['undo', ['undo', 'redo']],
     ],
+}
+
+Q_CLUSTER = {
+    'name': 'DjangORM',
+    'workers': 4,
+    'timeout': 90,
+    'retry': 120,
+    'queue_limit': 50,
+    'bulk': 10,
+    'orm': 'default'
 }
 
 CSRF_TRUSTED_ORIGINS = ['https://**']
