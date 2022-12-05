@@ -10,11 +10,15 @@ class Category(models.Model):
     name = models.CharField(max_length=256, db_index=True)
     description = SummernoteTextField()
 
+    def __str__(self):
+        return self.name
 
 class Tag(models.Model):
     name = models.CharField(max_length=256, db_index=True)
     description = SummernoteTextField()
 
+    def __str__(self):
+        return self.name
 
 class News(models.Model):
     class LanguageTypes(models.TextChoices):
@@ -38,3 +42,6 @@ class News(models.Model):
     summary_tts = models.FileField(upload_to="tts/summary", null=True, blank=True)
 
     metadata = models.JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return self.title
