@@ -27,7 +27,7 @@ BASE_APPS = [
 
 # External Third Party Packages
 EXTERNAL_APPS = [
-
+    'django_summernote',
 ]
 
 # Apps that we wrote
@@ -175,6 +175,19 @@ JAZZMIN_UI_TWEAKS = {
         "danger": "btn-outline-danger",
         "success": "btn-outline-success"
     }
+}
+SUMMERNOTE_CONFIG = {
+    'width': '100%',
+    'toolbar': [
+        ['font', ['fontname', 'fontsize', 'hr']],
+        ['font', ['bold', 'underline', 'italic', 'strikethrough', 'superscript', 'subscript', 'clear']],
+        ['color', ['color']],
+        ['para', ['paragraph']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video', 'line']],
+        ['view', ['fullscreen']],
+        ['undo', ['undo', 'redo']],
+    ],
 }
 
 CSRF_TRUSTED_ORIGINS = ['https://**']
