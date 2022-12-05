@@ -13,12 +13,14 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
 class Tag(models.Model):
     name = models.CharField(max_length=256, db_index=True)
     description = SummernoteTextField()
 
     def __str__(self):
         return self.name
+
 
 class News(models.Model):
     class LanguageTypes(models.TextChoices):
