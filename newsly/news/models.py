@@ -12,7 +12,7 @@ class Category(models.Model):
     description = SummernoteTextField()
 
     def description_text(self):
-        return strip_tags(self.description)
+        return strip_tags(self.description.replace("</br>", "\n"))
 
     def __str__(self):
         return self.name
@@ -23,7 +23,7 @@ class Tag(models.Model):
     description = SummernoteTextField()
 
     def description_text(self):
-        return strip_tags(self.description)
+        return strip_tags(self.description.replace("</br>", "\n"))
 
     def __str__(self):
         return self.name
@@ -55,7 +55,7 @@ class News(models.Model):
     metadata = models.JSONField(null=True, blank=True)
 
     def body_text(self):
-        text = strip_tags(self.body)
+        text = strip_tags(self.body.replace("</br>", "\n"))
         return text
 
     def __str__(self):
