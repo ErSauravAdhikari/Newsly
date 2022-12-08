@@ -72,9 +72,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-DATABASE_URL = os.environ.get('NEWSLY_DATABASE_URL')
-DATABASES = {'default': dj_database_url.parse(DATABASE_URL)}
-
+DATABASES = {
+    'default': dj_database_url.config(),
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -102,7 +102,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 STATICFILES_DIRS = (
     os.path.join(NEWSLY_DIR, 'static'),
 )
