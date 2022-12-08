@@ -1,3 +1,7 @@
 .main-footer {
     display: none;
 }
+
+.login-logo img {
+    height: 80px;
+}
