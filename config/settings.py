@@ -212,6 +212,6 @@ EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "465"))
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
-CSRF_TRUSTED_ORIGINS = ['https://**']
+CSRF_TRUSTED_ORIGINS = ['https://newsly.adhikari.pp.ua']
 CORS_ORIGIN_ALLOW_ALL = True
 X_FRAME_OPTIONS = 'SAMEORIGIN'
