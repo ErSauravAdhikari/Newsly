@@ -30,6 +30,7 @@ EXTERNAL_APPS = [
     'django_summernote',
     'django_q',
     'rest_framework',
+    'django_filters',
 ]
 
 # Apps that we wrote
@@ -97,7 +98,8 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 LANGUAGE_CODE = 'en-us'
