@@ -29,6 +29,7 @@ BASE_APPS = [
 EXTERNAL_APPS = [
     'django_summernote',
     'django_q',
+    'rest_framework',
 ]
 
 # Apps that we wrote
@@ -91,6 +92,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 LANGUAGE_CODE = 'en-us'
 

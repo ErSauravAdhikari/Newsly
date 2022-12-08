@@ -1,5 +1,6 @@
 from django.db import models
 from django_summernote.fields import SummernoteTextField
+from django.utils.html import strip_tags
 
 from django.conf import settings
 
@@ -10,6 +11,9 @@ class Category(models.Model):
     name = models.CharField(max_length=256, db_index=True)
     description = SummernoteTextField()
 
+    def description_text(self):
+        return strip_tags(self.description)
+
     def __str__(self):
         return self.name
 
@@ -17,6 +21,9 @@ class Category(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=256, db_index=True)
     description = SummernoteTextField()
+
+    def description_text(self):
+        return strip_tags(self.description)
 
     def __str__(self):
         return self.name
@@ -26,6 +33,8 @@ class News(models.Model):
     class LanguageTypes(models.TextChoices):
         ENGLISH = "EN", "en"
         NEPALI = "NP", "np"
+
+    created = models.DateTimeField(auto_created=True, db_index=True)
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, db_index=True, related_name="news")
     tags = models.ManyToManyField(Tag, db_index=True, related_name="news")
@@ -44,6 +53,10 @@ class News(models.Model):
     summary_tts = models.FileField(upload_to="tts/summary", null=True, blank=True)
 
     metadata = models.JSONField(null=True, blank=True)
+
+    def body_text(self):
+        text = strip_tags(self.body)
+        return text
 
     def __str__(self):
         return self.title

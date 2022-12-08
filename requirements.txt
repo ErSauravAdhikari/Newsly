@@ -19,3 +19,5 @@ sqlparse==0.4.3
 wcwidth==0.2.5
 webencodings==0.5.1
 whitenoise==6.2.0
+
+djangorestframework~=3.14.0
