@@ -64,15 +64,19 @@ class News(models.Model):
         return self.title
 
     def get_tts_summary(self):
+        text = self.title + "\n\n" + self.summary
+
         if self.language == self.LanguageTypes.ENGLISH:
-            tts = get_tts_ibm(self.summary)
+            tts = get_tts_ibm(text)
             self.summary_tts.save(self.title + ".wav", File(BytesIO(tts)))
         else:
-            tts = get_tts(self.summary)
+            tts = get_tts(text)
             self.summary_tts.save(self.title + ".mp3", File(tts))
 
     def get_tts_body(self):
-        tts = get_tts(self.body_text())
+        text = self.title + "\n\n" + self.body_text()
+
+        tts = get_tts(text)
         self.full_body_tts.save(self.title + ".mp3", File(tts))
 
     def __name__(self):
