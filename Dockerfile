@@ -5,6 +5,8 @@ FROM python:${PYTHON_VERSION}
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+RUN "sudo apt-get install libpq-dev"
+
 RUN mkdir -p /code
 
 WORKDIR /code
