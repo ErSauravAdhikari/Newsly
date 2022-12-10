@@ -2,13 +2,14 @@ import os
 from pathlib import Path
 
 import dj_database_url
+from storages.backends.azure_storage import AzureStorage
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 NEWSLY_DIR = BASE_DIR / 'newsly'
 
 SECRET_KEY = os.environ.get("NEWSLY_SECRET_KEY", "SUPER_SECRETY_SECRET")
 
-DEBUG = os.environ.get("NEWSLY_DEBUG", "False") == "True"
+DEBUG = os.environ.get("NEWSLY_DEBUG", "False") == "False"
 
 ALLOWED_HOSTS = os.environ.get("NEWSLY_ALLOWED_HOST", "*").split(",")
 
@@ -115,6 +116,24 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 STATICFILES_DIRS = (
     os.path.join(NEWSLY_DIR, 'static'),
 )
+
+
+class PublicAzureStorage(AzureStorage):
+    account_name = 'myaccount'
+    account_key = 'mykey'
+    azure_container = 'mypublic_container'
+    expiration_secs = None
+
+
+if not DEBUG:
+    class PublicAzureStorage(AzureStorage):
+        account_name = 'unimy'
+        account_key = os.environ.get('AZURE_ACCOUNT_KEY')
+        azure_container = 'newsly'
+        expiration_secs = None
+
+
+    DEFAULT_FILE_STORAGE = 'config.settings.PublicAzureStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'uploads'
