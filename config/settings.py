@@ -9,7 +9,7 @@ NEWSLY_DIR = BASE_DIR / 'newsly'
 
 SECRET_KEY = os.environ.get("NEWSLY_SECRET_KEY", "SUPER_SECRETY_SECRET")
 
-DEBUG = os.environ.get("NEWSLY_DEBUG", "False") == "False"
+DEBUG = os.environ.get("NEWSLY_DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.environ.get("NEWSLY_ALLOWED_HOST", "*").split(",")
 
