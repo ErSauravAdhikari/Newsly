@@ -12,7 +12,6 @@ DEBUG = os.environ.get("NEWSLY_DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.environ.get("NEWSLY_ALLOWED_HOST", "*").split(",")
 
-
 # Those that come with the django preinstalled (and those that need to run before these)
 BASE_APPS = [
     'jazzmin',
@@ -213,7 +212,6 @@ Q_CLUSTER = {
     'bulk': 10,
     'orm': 'default'
 }
-
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_SSL = os.environ.get("EMAIL_USE_SSL", "True") == "True"
