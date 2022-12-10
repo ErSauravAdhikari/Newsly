@@ -67,8 +67,9 @@ class News(models.Model):
         return self.title
 
     def get_tts_summary(self):
-        tts = get_tts(self.summary)
-        self.summary_tts.save(self.title + ".wav", File(BytesIO(tts)))
+        if self.summary is not None and self.summary != "":
+            tts = get_tts(self.summary)
+            self.summary_tts.save(self.title + ".wav", File(BytesIO(tts)))
 
     def get_tts_body(self):
         tts = get_tts(self.body_text())
