@@ -1,8 +1,13 @@
+import json
+
 from django.db import models
 from django_summernote.fields import SummernoteTextField
 from django.utils.html import strip_tags
-
+from django.core.files.base import File, BytesIO
 from django.conf import settings
+import requests
+
+from newsly.news.ai import get_tts
 
 UserModel = settings.AUTH_USER_MODEL
 
@@ -60,3 +65,11 @@ class News(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_tts_summary(self):
+        tts = get_tts(self.summary)
+        self.summary_tts.save(self.title + ".wav", File(BytesIO(tts)))
+
+    def get_tts_body(self):
+        tts = get_tts(self.body_text())
+        self.summary_tts.save(self.title + ".wav", File(BytesIO(tts)))

@@ -12,13 +12,13 @@ class UserAuthorSerializer(serializers.ModelSerializer):
 
 class CategorySerializer(serializers.ModelSerializer):
     description_text = serializers.ReadOnlyField()
+
     class Meta:
         model = Category
         exclude = ['description']
 
 
 class TagSerializer(serializers.ModelSerializer):
-
     description_text = serializers.ReadOnlyField()
 
     class Meta:

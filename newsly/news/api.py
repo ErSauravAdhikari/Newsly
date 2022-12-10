@@ -13,5 +13,3 @@ class NewsViewSet(GenericViewSet, ListModelMixin):
         DjangoFilterBackend
     ]
     filterset_fields = ['category', 'language']
-
-
