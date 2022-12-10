@@ -226,5 +226,5 @@ CSRF_TRUSTED_ORIGINS = ['https://newsly.asaurav.com.np']
 CORS_ORIGIN_ALLOW_ALL = True
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
-IBM_WATSON_TTS_URL = "https://api.us-south.text-to-speech.watson.cloud.ibm.com/instances/3271be06-ee81-4448-81fa-d646514b999c"
-IBM_WATSON_TTS_AUTHORIZATION = "Basic YXBpa2V5OmtHUnZmWGYzSEZNaHRPN192enRMQnRMOV9nRkJsb0VJck4ybm1IOVRMMW5t"
+IBM_WATSON_TTS_URL = os.environ.get("IBM_WATSON_TTS_URL", "")
+IBM_WATSON_TTS_AUTHORIZATION = os.environ.get("IBM_WATSON_TTS_AUTHORIZATION", "")
