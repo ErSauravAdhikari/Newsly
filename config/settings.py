@@ -118,13 +118,6 @@ STATICFILES_DIRS = (
 )
 
 
-class PublicAzureStorage(AzureStorage):
-    account_name = 'myaccount'
-    account_key = 'mykey'
-    azure_container = 'mypublic_container'
-    expiration_secs = None
-
-
 if not DEBUG:
     class PublicAzureStorage(AzureStorage):
         account_name = 'unimy'
