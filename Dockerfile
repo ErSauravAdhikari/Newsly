@@ -1,11 +1,11 @@
-ARG PYTHON_VERSION=3.10-slim-buster
+ARG PYTHON_VERSION=3.10
 
 FROM python:${PYTHON_VERSION}
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN "sudo apt-get install libpq-dev"
+RUN "apt-get install libpq-dev"
 
 RUN mkdir -p /code
 
