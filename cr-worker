@@ -6,6 +6,7 @@
     "WORKDIR /usr/src/app",
     "COPY ./ /usr/src/app",
     "RUN pip install -r requirements.txt",
+    "RUN apt-get install nodejs",
     "CMD python manage.py qcluster"
   ]
 }
