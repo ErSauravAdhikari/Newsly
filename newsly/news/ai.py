@@ -36,7 +36,7 @@ def get_tts_ibm(text: str):
 def get_summary(text: str):
     openai.api_key = settings.OPENAI_API_KEY
     response = openai.Completion.create(
-      model="text-davinci-003",
+      model="text-curie-001",
       prompt= text,
       temperature=0.7,
       max_tokens=250,
