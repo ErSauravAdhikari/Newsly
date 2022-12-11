@@ -4,7 +4,7 @@ from django.utils.html import strip_tags
 from django.core.files.base import File, BytesIO
 from django.conf import settings
 
-from newsly.news.ai import get_tts, get_tts_ibm, get_summary
+from newsly.news.ai import get_tts, get_tts_ibm, get_summary, translate_to_nepali
 
 UserModel = settings.AUTH_USER_MODEL
 
@@ -112,7 +112,14 @@ class News(models.Model):
         summary_log.append(summary)
 
         self.metadata["summary"] = summary_log
-        self.summary = summary["choices"][0]["text"]
+        self.save()
+
+        if self.language == self.LanguageTypes.ENGLISH:
+            self.summary = summary["choices"][0]["text"]
+        else:
+            # OPEN AI translates nepali to english while summary generation, hence converting it to nepali using
+            # Google Translate API
+            self.summary = translate_to_nepali(translate_to_nepali(summary["choices"][0]["text"]))
         self.save()
 
     def __name__(self):

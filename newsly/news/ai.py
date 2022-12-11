@@ -2,6 +2,7 @@ import openai
 from django.conf import settings
 import json
 from io import BytesIO
+import translators.server as tss
 
 import requests
 from gtts import gTTS
@@ -36,12 +37,22 @@ def get_tts_ibm(text: str):
 def get_summary(text: str):
     openai.api_key = settings.OPENAI_API_KEY
     response = openai.Completion.create(
-      model="text-curie-001",
-      prompt= text,
-      temperature=0.7,
-      max_tokens=250,
-      top_p=1,
-      frequency_penalty=0,
-      presence_penalty=1
+        model="text-curie-001",
+        prompt=text,
+        temperature=0.7,
+        max_tokens=250,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=1
     )
     return response
+
+
+def translate_to_nepali(text: str):
+    nepali_text = tss.bing(
+        query_text=text,
+        from_language='en',
+        to_language='ne'
+    )
+
+    return nepali_text
