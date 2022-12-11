@@ -1,3 +1,4 @@
+idna
 arrow==1.2.3
 asgiref==3.5.2
 azure-core==1.26.1
@@ -29,9 +30,7 @@ h2==3.2.0
 hpack==3.0.0
 hstspreload==2022.12.1
 httpcore==0.9.1
-httpx
 hyperframe==5.2.0
-idna
 isodate==0.6.1
 lxml==4.9.1
 Markdown==3.4.1
