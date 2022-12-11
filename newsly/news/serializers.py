@@ -24,6 +24,8 @@ class NewsSerializer(serializers.ModelSerializer):
     all_tags = serializers.ReadOnlyField()
     category_name = serializers.ReadOnlyField()
 
+    comma_separate_tags = serializers.ReadOnlyField()
+
     class Meta:
         model = News
-        exclude = ['body', 'author', 'category', 'tags']
+        exclude = ['body', 'author', 'category', 'tags', 'metadata']

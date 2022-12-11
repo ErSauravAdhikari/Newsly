@@ -1,3 +1,4 @@
+import openai
 from django.conf import settings
 import json
 from io import BytesIO
@@ -12,9 +13,6 @@ def get_tts(text: str):
     fp = BytesIO()
     myobj.write_to_fp(fp)
     return fp
-
-    # Playing the converted file
-    # os.system("mpg321 welcome.mp3")
 
 
 def get_tts_ibm(text: str):
@@ -33,3 +31,17 @@ def get_tts_ibm(text: str):
         data=data
     )
     return res.content
+
+
+def get_summary(text: str):
+    openai.api_key = settings.OPENAI_API_KEY
+    response = openai.Completion.create(
+      model="text-davinci-003",
+      prompt= text,
+      temperature=0.7,
+      max_tokens=250,
+      top_p=1,
+      frequency_penalty=0,
+      presence_penalty=1
+    )
+    return response

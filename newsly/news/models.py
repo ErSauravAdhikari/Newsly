@@ -4,7 +4,7 @@ from django.utils.html import strip_tags
 from django.core.files.base import File, BytesIO
 from django.conf import settings
 
-from newsly.news.ai import get_tts, get_tts_ibm
+from newsly.news.ai import get_tts, get_tts_ibm, get_summary
 
 UserModel = settings.AUTH_USER_MODEL
 
@@ -56,6 +56,13 @@ class News(models.Model):
 
     metadata = models.JSONField(null=True, blank=True)
 
+    def comma_separate_tags(self):
+        cst = ""
+        for tag in self.tags.all():
+            cst += tag.name + ","
+
+        return cst
+
     def author_name(self):
         return self.author.first_name + " " + self.author.last_name
 
@@ -90,6 +97,21 @@ class News(models.Model):
 
         tts = get_tts(text)
         self.full_body_tts.save(self.title + ".mp3", File(tts))
+
+    def generate_summary(self):
+        summary = get_summary(self.body_text())
+        self.metadata = {} if not self.metadata else self.metadata
+
+        try:
+            summary_log = self.metadata["summary"]
+        except KeyError as e:
+            summary_log = []
+
+        summary_log.append(summary)
+
+        self.metadata["summary"] = summary_log
+        self.summary = summary["choices"][0]["text"]
+        self.save()
 
     def __name__(self):
         return self.title

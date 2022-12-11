@@ -24,7 +24,14 @@ class NewsAdmin(admin.ModelAdmin):
 
         self.message_user(request, f"Background Task established to generate Full News TTS.", messages.SUCCESS)
 
-    actions = [generate_summary_tts, generate_full_tts]
+    @admin.action(description="Generate Summary")
+    def admin_generate_summary(self, request, queryset):
+        for news in queryset:
+            async_task(news.generate_summary)
+
+        self.message_user(request, f"Background Task established to generate Summary.", messages.SUCCESS)
+
+    actions = [generate_summary_tts, generate_full_tts, admin_generate_summary]
 
 
 admin.site.register(News, NewsAdmin)
