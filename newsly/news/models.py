@@ -38,6 +38,8 @@ class News(models.Model):
 
     created = models.DateTimeField(auto_created=True, db_index=True)
 
+    cover_image = models.ImageField(upload_to="images/news/cover_images", null=True)
+
     category = models.ForeignKey(Category, on_delete=models.CASCADE, db_index=True, related_name="news")
     tags = models.ManyToManyField(Tag, db_index=True, related_name="news")
 
