@@ -4,35 +4,26 @@ from .models import News, Category, Tag
 from newsly.accounts.models import CustomUser
 
 
-class UserAuthorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ['first_name', 'last_name', 'email']
-
-
 class CategorySerializer(serializers.ModelSerializer):
-    description_text = serializers.ReadOnlyField()
-
     class Meta:
         model = Category
-        exclude = ['description']
+        exclude = ['description', 'id']
 
 
 class TagSerializer(serializers.ModelSerializer):
-    description_text = serializers.ReadOnlyField()
-
     class Meta:
         model = Tag
-        exclude = ['description']
+        exclude = ['description', 'id']
 
 
 class NewsSerializer(serializers.ModelSerializer):
     body_text = serializers.ReadOnlyField()
 
-    author = UserAuthorSerializer(read_only=True)
-    tags = TagSerializer(many=True, read_only=True)
-    category = CategorySerializer(read_only=True)
+    author_name = serializers.ReadOnlyField()
+
+    all_tags = serializers.ReadOnlyField()
+    category_name = serializers.ReadOnlyField()
 
     class Meta:
         model = News
-        exclude = ['body']
+        exclude = ['body', 'author', 'category', 'tags']

@@ -56,6 +56,18 @@ class News(models.Model):
 
     metadata = models.JSONField(null=True, blank=True)
 
+    def author_name(self):
+        return self.author.first_name + " " + self.author.last_name
+
+    def category_name(self):
+        return self.category.name
+
+    def all_tags(self):
+        tag_list = []
+        for tag in self.tags.all():
+            tag_list.append(tag.name)
+        return tag_list
+
     def body_text(self):
         text = strip_tags(self.body.replace("<p>", "").replace("</p>", "\n"))
         return text
