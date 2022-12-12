@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib import admin
 from django_q.tasks import async_task
 
-from .models import Category, Tag, News
+from .models import Category, Tag, News, NewsInteraction
 
 admin.site.register(Category)
 admin.site.register(Tag)
@@ -35,3 +35,5 @@ class NewsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(News, NewsAdmin)
+
+admin.site.register(NewsInteraction)

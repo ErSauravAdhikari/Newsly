@@ -1,10 +1,10 @@
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import GenericViewSet
-from rest_framework.mixins import ListModelMixin
+from rest_framework.mixins import ListModelMixin, CreateModelMixin
 
-from .models import News
-from .serializers import NewsSerializer
+from .models import News, NewsInteraction
+from .serializers import NewsSerializer, NewsInteractionSerializer
 
 
 class NewsViewSet(GenericViewSet, ListModelMixin):
@@ -14,3 +14,13 @@ class NewsViewSet(GenericViewSet, ListModelMixin):
         DjangoFilterBackend
     ]
     filterset_fields = ['category', 'language']
+
+
+class NewsInteractionViewSet(GenericViewSet, CreateModelMixin):
+    queryset = NewsInteraction.objects.all()
+    serializer_class = NewsInteractionSerializer
+    filter_backends = [
+        DjangoFilterBackend
+    ]
+
+    filterset_fields = ['user__id']

@@ -4,6 +4,7 @@ from django.utils.html import strip_tags
 from django.core.files.base import File, BytesIO
 from django.conf import settings
 
+from newsly.accounts.models import CustomUser
 from newsly.news.ai import get_tts, get_tts_ibm, get_summary, translate_to_nepali
 
 UserModel = settings.AUTH_USER_MODEL
@@ -124,3 +125,14 @@ class News(models.Model):
 
     def __name__(self):
         return self.title
+
+
+class NewsInteraction(models.Model):
+    user = models.ForeignKey(CustomUser, related_name="interactions", on_delete=models.CASCADE)
+    news = models.ForeignKey(News, related_name="interactions", on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'news')
+
+    def __str__(self):
+        return f"{self.user.id} || {self.news.id}"

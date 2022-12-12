@@ -5,10 +5,12 @@ from django.urls import path, include, re_path
 from django.views.static import serve
 from rest_framework import routers
 
-from newsly.news.api import NewsViewSet
+from newsly.news.api import NewsViewSet, NewsInteractionViewSet
 
 router = routers.DefaultRouter()
 router.register(r'news', NewsViewSet)
+router.register(r'interactions', NewsInteractionViewSet)
+
 
 urlpatterns = [
     path('api/', include(router.urls)),

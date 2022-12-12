@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import News, Category, Tag
+from .models import News, Category, Tag, NewsInteraction
 from newsly.accounts.models import CustomUser
 
 
@@ -29,3 +29,9 @@ class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
         exclude = ['body', 'author', 'category', 'tags', 'metadata']
+
+
+class NewsInteractionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NewsInteraction
+        fields = ['news', 'user']
