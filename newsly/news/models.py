@@ -158,6 +158,11 @@ class News(models.Model):
             print(user, is_rel)
             if is_rel:
                 RelevantNews.objects.get_or_create(user=user, news=self)
+            else:
+                try:
+                    RelevantNews.objects.get(user=user, news=self).delete()
+                except RelevantNews.DoesNotExist:
+                    pass
 
     def is_this_relevant_news_for_user(self, user: CustomUser):
         interactions = NewsInteraction.objects.filter(user=user)
