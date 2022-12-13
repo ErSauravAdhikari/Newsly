@@ -127,7 +127,7 @@ class News(models.Model):
         self.save()
 
     def send_success_email_to_author(self):
-        body_content = f"{self.title}\n\nFull TTS: {self.full_body_tts.url}\nSummary TTS{self.summary_tts}\n\nSummary: {self.summary}"
+        body_content = f"{self.title}\n\nFull TTS: {self.full_body_tts.url}\nSummary TTS: {self.summary_tts}\n\nSummary: {self.summary}"
         try:
             send_mail(
                 f'News: {self.title} has been processed!',
