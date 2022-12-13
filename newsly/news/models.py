@@ -3,6 +3,7 @@ from django_summernote.fields import SummernoteTextField
 from django.utils.html import strip_tags
 from django.core.files.base import File, BytesIO
 from django.conf import settings
+from django.core.mail import send_mail
 
 from newsly.accounts.models import CustomUser
 from newsly.news.ai import get_tts, get_tts_ibm, get_summary, translate_to_nepali
@@ -58,6 +59,8 @@ class News(models.Model):
     summary_tts = models.FileField(upload_to="tts/summary", null=True, blank=True)
 
     metadata = models.JSONField(null=True, blank=True)
+
+    is_draft = models.BooleanField(default=True, editable=False)
 
     def comma_separate_tags(self):
         cst = ""
@@ -122,6 +125,25 @@ class News(models.Model):
             # Google Translate API
             self.summary = translate_to_nepali(translate_to_nepali(summary["choices"][0]["text"]))
         self.save()
+
+    def send_success_email_to_author(self):
+        body_content = f"{self.title}\n\nFull TTS: {self.full_body_tts.url}\nSummary TTS{self.summary_tts}\n\nSummary: {self.summary}"
+        try:
+            send_mail(
+                f'News: {self.title} has been processed!',
+                body_content,
+                settings.EMAIL_HOST_USER,
+                [self.author.email],
+                fail_silently=False,
+            )
+        except Exception as e:
+            print("ERROR SENDING EMAIL", e)
+
+    def process_news(self):
+        self.generate_summary()
+        self.get_tts_summary()
+        self.get_tts_body()
+        self.send_success_email_to_author()
 
     def __name__(self):
         return self.title
