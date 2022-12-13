@@ -2,6 +2,7 @@ from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin, CreateModelMixin
+from rest_framework.permissions import AllowAny
 
 from .models import News, NewsInteraction, RelevantNews
 from .serializers import NewsSerializer, NewsInteractionSerializer
@@ -44,4 +45,5 @@ class NewsInteractionViewSet(GenericViewSet, CreateModelMixin):
         DjangoFilterBackend
     ]
 
+    permission_classes = [AllowAny]
     filterset_fields = ['user__id']
