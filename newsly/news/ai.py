@@ -26,7 +26,7 @@ def get_tts_ibm(text: str):
         f"{url}/v1/synthesize?voice=en-US_MichaelExpressive",
         headers={
             "Content-Type": "application/json",
-            "Accept": "audio/wav",
+            "Accept": "audio/mp3",
             'Authorization': settings.IBM_WATSON_TTS_AUTHORIZATION,
         },
         data=data

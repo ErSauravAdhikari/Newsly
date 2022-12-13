@@ -90,7 +90,7 @@ class News(models.Model):
 
         if self.language == self.LanguageTypes.ENGLISH:
             tts = get_tts_ibm(text)
-            self.summary_tts.save(self.title + ".wav", File(BytesIO(tts)))
+            self.summary_tts.save(self.title + ".mp3", File(BytesIO(tts)))
         else:
             tts = get_tts(text)
             self.summary_tts.save(self.title + ".mp3", File(tts))
