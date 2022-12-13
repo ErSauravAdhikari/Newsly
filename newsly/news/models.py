@@ -149,6 +149,7 @@ class News(models.Model):
         self.generate_summary()
         self.get_tts_summary()
         self.get_tts_body()
+        self.generate_relevancy()
         self.send_success_email_to_author()
 
     def generate_relevancy(self):

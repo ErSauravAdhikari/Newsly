@@ -9,7 +9,7 @@ from newsly.news.api import NewsViewSet, NewsInteractionViewSet, FilterNewsViewS
 router = routers.DefaultRouter()
 router.register(r'news', NewsViewSet)
 router.register(r'interactions', NewsInteractionViewSet)
-router.register(r'relevant-news', FilterNewsViewSet)
+router.register(r'relevant-news', FilterNewsViewSet, basename='News')
 
 
 urlpatterns = [

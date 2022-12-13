@@ -12,7 +12,7 @@ admin.site.register(Tag)
 class NewsAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'is_draft')
 
-    @admin.action(description="Generate Relevancy")
+    @admin.action(description="Only | Generate Relevancy")
     def generate_relevancy(self, request, queryset):
         for news in queryset:
             async_task(news.generate_relevancy)
