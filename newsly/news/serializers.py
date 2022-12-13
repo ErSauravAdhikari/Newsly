@@ -23,6 +23,7 @@ class NewsSerializer(serializers.ModelSerializer):
 
     all_tags = serializers.ReadOnlyField()
     category_name = serializers.ReadOnlyField()
+    created_str = serializers.ReadOnlyField()
 
     comma_separate_tags = serializers.ReadOnlyField()
 

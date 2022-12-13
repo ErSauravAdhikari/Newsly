@@ -62,6 +62,9 @@ class News(models.Model):
 
     is_draft = models.BooleanField(default=True, editable=False)
 
+    def created_str(self):
+        return self.created.strftime('%m/%d/%Y %H:%M')
+
     def comma_separate_tags(self):
         cst = ""
         for tag in self.tags.all():
