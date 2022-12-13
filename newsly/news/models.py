@@ -197,11 +197,10 @@ class News(models.Model):
             except KeyError:
                 pass
 
-        if interaction_points == 0:
-            return False
-
         if total_read < 5:
             return True
+        elif interaction_points == 0:
+            return False
         else:
             pts = interaction_points / total_read
             if pts > 0.2:
