@@ -97,6 +97,7 @@ Steps:
 8. Run `python manage.py runserver` and connect to the website using http://localhost:8000
 
 ### Environment Variables
+#### Important variables
 - `NEWSLY_SECRET_KEY`
   - String block used for cryptographic transactions. Generated random value to be used. 
 - `NEWSLY_DEBUG`
@@ -108,3 +109,20 @@ Steps:
 - `NEWSLY_DATABASE_URL`
   - URL DSN in the form: `postgres://postgres@database_default:5432/db
 `
+#### Full list of variables
+```dotenv
+AZURE_ACCOUNT_KEY=<Azure Storage Account Key> 
+DATABASE_URL=<DB_URL>
+DJANGO_SETTINGS_MODULE=config.settings
+EMAIL_HOST=<SMTP host address>
+EMAIL_HOST_PASSWORD=<Emails Password>
+EMAIL_HOST_USER=<Email Address>
+EMAIL_PORT=<SMTP Port>
+EMAIL_USE_SSL=<True or False>
+IBM_WATSON_TTS_AUTHORIZATION=<Watson Auth Parameter in format: Basic <encoded_key>>
+IBM_WATSON_TTS_URL=<Watsons url given in watson dashboard>
+NEWSLY_DEBUG=<True for Local Setup, False for Production>
+NEWSLY_SECRET_KEY=<A random secret key>
+OPENAI_API_KEY=<OPENAI api key>
+PYTHONUNBUFFERED=1
+```
