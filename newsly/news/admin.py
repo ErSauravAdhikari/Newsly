@@ -3,7 +3,7 @@
 from django.contrib import admin
 from django_q.tasks import async_task
 
-from .models import Category, Tag, News, NewsInteraction
+from .models import Category, Tag, News, NewsInteraction, RelevantNews
 
 admin.site.register(Category)
 admin.site.register(Tag)
@@ -12,7 +12,12 @@ admin.site.register(Tag)
 class NewsAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'is_draft')
 
-    # All news by default are draft and this action is used to publish those draft to production
+    @admin.action(description="Generate Relevancy")
+    def generate_relevancy(self, request, queryset):
+        for news in queryset:
+            async_task(news.generate_relevancy)
+
+    # All self by default are draft and this action is used to publish those draft to production
     @admin.action(description="Publish")
     def publish_news(self, request, queryset):
         for news in queryset:
@@ -47,9 +52,11 @@ class NewsAdmin(admin.ModelAdmin):
 
         self.message_user(request, f"Processing has been initialized.", messages.SUCCESS)
 
-    actions = [publish_news, process_news, generate_summary_tts, generate_full_tts, admin_generate_summary]
+    actions = [publish_news, process_news, generate_relevancy, generate_summary_tts, generate_full_tts,
+               admin_generate_summary]
 
 
 admin.site.register(News, NewsAdmin)
 
 admin.site.register(NewsInteraction)
+admin.site.register(RelevantNews)

@@ -40,10 +40,10 @@ class News(models.Model):
 
     created = models.DateTimeField(auto_created=True, db_index=True)
 
-    cover_image = models.ImageField(upload_to="images/news/cover_images", null=True)
+    cover_image = models.ImageField(upload_to="images/self/cover_images", null=True)
 
-    category = models.ManyToManyField(Category, db_index=True, related_name="news")
-    tags = models.ManyToManyField(Tag, db_index=True, related_name="news")
+    category = models.ManyToManyField(Category, db_index=True, related_name="self")
+    tags = models.ManyToManyField(Tag, db_index=True, related_name="self")
 
     author = models.ForeignKey(UserModel, on_delete=models.PROTECT)
 
@@ -151,6 +151,63 @@ class News(models.Model):
         self.get_tts_body()
         self.send_success_email_to_author()
 
+    def generate_relevancy(self):
+        for user in CustomUser.objects.all():
+            is_rel = self.is_this_relevant_news_for_user(user)
+            print(user, is_rel)
+            if is_rel:
+                RelevantNews.objects.get_or_create(user=user, news=self)
+
+    def is_this_relevant_news_for_user(self, user: CustomUser):
+        interactions = NewsInteraction.objects.filter(user=user)
+
+        all_fav_tags = {}
+        all_fav_category = {}
+
+        total_read = interactions.count()
+
+        for interaction in interactions:
+            for tag in interaction.news.tags.all():
+                try:
+                    all_fav_tags[tag] = all_fav_tags[tag] + 1
+                except KeyError:
+                    all_fav_tags[tag] = 1
+
+            for category in interaction.news.category.all():
+                try:
+                    all_fav_category[category] = all_fav_category[category] + 1
+                except KeyError:
+                    all_fav_category[category] = 1
+
+        news_tags = self.tags.all()
+        news_categories = self.category.all()
+
+        interaction_points = 0
+
+        for tag in news_tags:
+            try:
+                interaction_points += all_fav_tags[tag]
+            except KeyError:
+                pass
+
+        for category in news_categories:
+            try:
+                interaction_points += all_fav_category[category]
+            except KeyError:
+                pass
+
+        if interaction_points == 0:
+            return False
+
+        if total_read < 5:
+            return True
+        else:
+            pts = interaction_points / total_read
+            if pts > 0.2:
+                return True
+            else:
+                return False
+
     def __name__(self):
         return self.title
 
@@ -159,8 +216,13 @@ class NewsInteraction(models.Model):
     user = models.ForeignKey(CustomUser, related_name="interactions", on_delete=models.CASCADE)
     news = models.ForeignKey(News, related_name="interactions", on_delete=models.CASCADE)
 
-    class Meta:
-        unique_together = ('user', 'news')
+    def __str__(self):
+        return f"{self.user.id} || {self.news.id}"
+
+
+class RelevantNews(models.Model):
+    user = models.ForeignKey(CustomUser, related_name="relevant_news", on_delete=models.CASCADE)
+    news = models.ForeignKey(News, related_name="relevant_news", on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.user.id} || {self.news.id}"
