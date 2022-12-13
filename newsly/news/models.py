@@ -42,7 +42,7 @@ class News(models.Model):
 
     cover_image = models.ImageField(upload_to="images/news/cover_images", null=True)
 
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, db_index=True, related_name="news")
+    category = models.ManyToManyField(Category, db_index=True, related_name="news")
     tags = models.ManyToManyField(Tag, db_index=True, related_name="news")
 
     author = models.ForeignKey(UserModel, on_delete=models.PROTECT)
@@ -73,7 +73,10 @@ class News(models.Model):
         return self.author.first_name + " " + self.author.last_name
 
     def category_name(self):
-        return self.category.name
+        categories = ""
+        for category in self.category.all():
+            categories += category.name + ","
+        return categories
 
     def all_tags(self):
         tag_list = []
