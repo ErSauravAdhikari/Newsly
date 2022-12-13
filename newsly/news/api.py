@@ -8,7 +8,7 @@ from .serializers import NewsSerializer, NewsInteractionSerializer
 
 
 class NewsViewSet(GenericViewSet, ListModelMixin):
-    queryset = News.objects.filter(~Q(full_body_tts="")).filter(~Q(summary_tts="")).filter(~Q(summary="")).order_by('-created')
+    queryset = News.objects.filter(is_draft=False).filter(~Q(full_body_tts="")).filter(~Q(summary_tts="")).filter(~Q(summary="")).order_by('-created')
     serializer_class = NewsSerializer
     filter_backends = [
         DjangoFilterBackend

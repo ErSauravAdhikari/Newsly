@@ -28,7 +28,7 @@ class NewsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = News
-        exclude = ['body', 'author', 'category', 'tags', 'metadata']
+        exclude = ['body', 'author', 'category', 'tags', 'metadata', 'is_draft']
 
 
 class NewsInteractionSerializer(serializers.ModelSerializer):

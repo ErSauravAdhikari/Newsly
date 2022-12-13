@@ -1,4 +1,4 @@
-from django.contrib import messages
+﻿from django.contrib import messages
 
 from django.contrib import admin
 from django_q.tasks import async_task
@@ -10,6 +10,7 @@ admin.site.register(Tag)
 
 
 class NewsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'is_draft')
 
     # All news by default are draft and this action is used to publish those draft to production
     @admin.action(description="Publish")
