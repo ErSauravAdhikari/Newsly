@@ -2,7 +2,7 @@
 ## How to use the software
 *It is assumed that you already have this software setup and running as per the instructions below.*
 
-Please visit http://localhost:8000, and you will be greeted with following page.
+Please visit http://localhost:8000 (for self deployment) or https://newsly.asaurav.com.np/ (if you didn't deploy yourself), and you will be greeted with following page.
 ![Login UI](https://i.imgur.com/Ix0PnkD.png)
 
 Login using the credentials that you have created at the setup phase.
