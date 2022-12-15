@@ -1,7 +1,8 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
-from .models import News, Category, Tag, NewsInteraction
-from newsly.accounts.models import CustomUser
+from .models import News, Category, Tag, NewsInteraction, DiscordWebhookStore
+from ..accounts.models import CustomUser
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -36,3 +37,17 @@ class NewsInteractionSerializer(serializers.ModelSerializer):
     class Meta:
         model = NewsInteraction
         fields = ['news', 'user']
+
+
+class DiscordWebhookSerializer(serializers.ModelSerializer):
+    user = serializers.SlugRelatedField(
+        many=False,
+        read_only=False,
+        slug_field='username',
+        queryset=CustomUser.objects.all(),
+        validators=[UniqueValidator(queryset=DiscordWebhookStore.objects.all())]
+     )
+
+    class Meta:
+        model = DiscordWebhookStore
+        fields = ['user', 'webhook']

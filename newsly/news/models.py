@@ -231,3 +231,11 @@ class RelevantNews(models.Model):
 
     def __str__(self):
         return f"{self.user.id} || {self.news.id}"
+
+
+class DiscordWebhookStore(models.Model):
+    user = models.OneToOneField(CustomUser, related_name="webhook", on_delete=models.CASCADE)
+    webhook = models.URLField()
+
+    def __str__(self):
+        return self.user

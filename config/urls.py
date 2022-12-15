@@ -4,13 +4,14 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from newsly.news.api import NewsViewSet, NewsInteractionViewSet, FilterNewsViewSet
+from newsly.news.api import NewsViewSet, NewsInteractionViewSet, FilterNewsViewSet, DiscordWebhookView
 from newsly.news.views import email_example, trigger_relevancy
 
 router = routers.DefaultRouter()
 router.register(r'news', NewsViewSet)
 router.register(r'interactions', NewsInteractionViewSet)
 router.register(r'relevant-news', FilterNewsViewSet, basename='News')
+router.register(r'user/webhook', DiscordWebhookView)
 
 
 urlpatterns = [
