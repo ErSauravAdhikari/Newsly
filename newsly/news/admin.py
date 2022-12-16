@@ -3,10 +3,11 @@
 from django.contrib import admin
 from django_q.tasks import async_task
 
-from .models import Category, Tag, News, NewsInteraction, RelevantNews
+from .models import Category, Tag, News, NewsInteraction, RelevantNews, DiscordWebhookStore
 
 admin.site.register(Category)
 admin.site.register(Tag)
+admin.site.register(DiscordWebhookStore)
 
 
 class NewsAdmin(admin.ModelAdmin):

@@ -1,3 +1,5 @@
+import json
+
 from django.db import models
 from django_summernote.fields import SummernoteTextField
 from django.utils.html import strip_tags
@@ -7,6 +9,8 @@ from django.core.mail import send_mail
 
 from newsly.accounts.models import CustomUser
 from newsly.news.ai import get_tts, get_tts_ibm, get_summary, translate_to_nepali
+
+import requests
 
 UserModel = settings.AUTH_USER_MODEL
 
@@ -153,11 +157,20 @@ class News(models.Model):
         self.send_success_email_to_author()
 
     def generate_relevancy(self):
+        """
+        Run AI to generate relevancy
+        Also sends webhook if the news is relevant to the user
+        :return: None
+        """
         for user in CustomUser.objects.all():
             is_rel = self.is_this_relevant_news_for_user(user)
             print(user, is_rel)
             if is_rel:
                 RelevantNews.objects.get_or_create(user=user, news=self)
+                try:
+                    user.webhook.send_webhook_for_news(self)
+                except DiscordWebhookStore.DoesNotExist:
+                    pass
             else:
                 try:
                     RelevantNews.objects.get(user=user, news=self).delete()
@@ -238,4 +251,33 @@ class DiscordWebhookStore(models.Model):
     webhook = models.URLField()
 
     def __str__(self):
-        return self.user
+        return f"{self.user}"
+
+    def send_webhook_for_news(self, news: News):
+        payload = {
+            "username": "Newsly",
+            "avatar_url": "https://i.imgur.com/4M34hi2.png",
+            "content": "New News from Newsly.",
+            "embeds": [
+                {
+                    "author": {
+                        "name": f"{news.author.first_name} {news.author.last_name}"
+                    },
+                    "title": news.title,
+                    "description": news.summary,
+                }
+            ]
+        }
+
+        result = requests.request("POST", self.webhook, json=payload, headers={
+            "Content-Type": "application/json"
+        })
+
+        try:
+            result.raise_for_status()
+        except requests.exceptions.HTTPError as err:
+            print(err)
+            print(result.text)
+        else:
+            print("Payload delivered successfully, code {}.".format(result.status_code))
+        return
