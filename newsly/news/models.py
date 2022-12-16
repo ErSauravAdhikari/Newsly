@@ -1,4 +1,4 @@
-import json
+import telebot
 
 from django.db import models
 from django_summernote.fields import SummernoteTextField
@@ -11,7 +11,6 @@ from newsly.accounts.models import CustomUser
 from newsly.news.ai import get_tts, get_tts_ibm, get_summary, translate_to_nepali
 
 import requests
-
 
 UserModel = settings.AUTH_USER_MODEL
 
@@ -236,6 +235,15 @@ def send_news_in_discord(news):
             pass
 
 
+def send_news_in_telegram(news):
+    all_relevance = news.relevant_news.all()
+    for news_relevance in all_relevance:
+        try:
+            news_relevance.user.webhook.send_telegram_for_news(news)
+        except DiscordWebhookStore.DoesNotExist:
+            pass
+
+
 class NewsInteraction(models.Model):
     user = models.ForeignKey(CustomUser, related_name="interactions", on_delete=models.CASCADE)
     news = models.ForeignKey(News, related_name="interactions", on_delete=models.CASCADE)
@@ -253,11 +261,28 @@ class RelevantNews(models.Model):
 
 
 class DiscordWebhookStore(models.Model):
+    """
+    Stores information about the social media account we need to send news to. Currently supported
+    - Telegram
+    - Discord
+    """
     user = models.OneToOneField(CustomUser, related_name="webhook", on_delete=models.CASCADE)
-    webhook = models.URLField()
+    webhook = models.URLField(blank=True, null=True)
+    telegram_id = models.CharField(blank=True, null=True, max_length=256)
 
     def __str__(self):
         return f"{self.user}"
+
+    def send_telegram_for_news(self, news: News):
+        if self.telegram_id:
+            news_image = news.cover_image.url if news.cover_image.url else "https://media.discordapp.net/attachments/1047848577386426412/1053345656288329778/Newsly_500x500.png"
+            news_image = "https://media.discordapp.net/attachments/1047848577386426412/1053345656288329778/Newsly_500x500.png"
+            news_text = news.title + "\n\n" + news.summary
+            settings.TG_BOT.send_photo(
+                chat_id=self.telegram_id,
+                photo=news_image,
+                caption=news_text
+            )
 
     def send_webhook_for_news(self, news: News):
         print(news.cover_image.url)

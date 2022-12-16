@@ -3,7 +3,7 @@
 from django.contrib import admin
 from django_q.tasks import async_task
 
-from .models import Category, Tag, News, NewsInteraction, RelevantNews, DiscordWebhookStore, send_news_in_discord
+from .models import Category, Tag, News, NewsInteraction, RelevantNews, DiscordWebhookStore, send_news_in_discord, send_news_in_telegram
 
 admin.site.register(Category)
 admin.site.register(Tag)
@@ -24,7 +24,8 @@ class NewsAdmin(admin.ModelAdmin):
         for news in queryset:
             news.is_draft = False
             news.save()
-            async_task(send_news_in_discord(news))
+            # async_task(send_news_in_discord(news))
+            async_task(send_news_in_telegram(news))
 
     @admin.action(description="Only | Summary TTS")
     def generate_summary_tts(self, request, queryset):

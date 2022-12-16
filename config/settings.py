@@ -3,6 +3,7 @@ from pathlib import Path
 
 import dj_database_url
 from storages.backends.azure_storage import AzureStorage
+import telebot
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 NEWSLY_DIR = BASE_DIR / 'newsly'
@@ -116,7 +117,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 STATICFILES_DIRS = (
     os.path.join(NEWSLY_DIR, 'static'),
 )
-
 
 if not DEBUG:
     class PublicAzureStorage(AzureStorage):
@@ -239,3 +239,6 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 IBM_WATSON_TTS_URL = os.environ.get("IBM_WATSON_TTS_URL", "")
 IBM_WATSON_TTS_AUTHORIZATION = os.environ.get("IBM_WATSON_TTS_AUTHORIZATION", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+TG_BOT_TOKEN = os.getenv("TG_BOT_TOKEN")
+TG_BOT = telebot.TeleBot(TG_BOT_TOKEN, parse_mode=None)
