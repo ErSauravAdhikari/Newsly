@@ -157,7 +157,6 @@ class News(models.Model):
         self.get_tts_body()
         self.generate_relevancy()
         self.send_success_email_to_author()
-        send_news_in_discord(self)
 
     def generate_relevancy(self):
         """

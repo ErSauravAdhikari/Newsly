@@ -25,6 +25,7 @@ class NewsAdmin(admin.ModelAdmin):
         for news in queryset:
             news.is_draft = False
             news.save()
+            send_news_in_discord(news)
 
     @admin.action(description="Only | Summary TTS")
     def generate_summary_tts(self, request, queryset):
