@@ -12,14 +12,6 @@ from datetime import datetime, timedelta
 from django.utils.timezone import make_aware
 
 
-def send_news_in_discord(news: News):
-    all_relevance = news.relevant_news.all()
-    for news_relevance in all_relevance:
-        try:
-            news_relevance.user.webhook.send_webhook_for_news(news)
-        except DiscordWebhookStore.DoesNotExist:
-            pass
-
 
 def send_daily_newsletter():
     users = CustomUser.objects.all()

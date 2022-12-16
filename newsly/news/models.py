@@ -12,7 +12,6 @@ from newsly.news.ai import get_tts, get_tts_ibm, get_summary, translate_to_nepal
 
 import requests
 
-from newsly.news.helpers import send_news_in_discord
 
 UserModel = settings.AUTH_USER_MODEL
 
@@ -226,6 +225,15 @@ class News(models.Model):
 
     def __name__(self):
         return self.title
+
+
+def send_news_in_discord(news):
+    all_relevance = news.relevant_news.all()
+    for news_relevance in all_relevance:
+        try:
+            news_relevance.user.webhook.send_webhook_for_news(news)
+        except DiscordWebhookStore.DoesNotExist:
+            pass
 
 
 class NewsInteraction(models.Model):
