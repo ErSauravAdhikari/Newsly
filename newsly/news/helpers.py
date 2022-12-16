@@ -6,10 +6,19 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 
 from newsly.accounts.models import CustomUser
-from newsly.news.models import News
+from newsly.news.models import News, DiscordWebhookStore
 
 from datetime import datetime, timedelta
 from django.utils.timezone import make_aware
+
+
+def send_news_in_discord(news: News):
+    all_relevance = news.relevant_news.all()
+    for news_relevance in all_relevance:
+        try:
+            news_relevance.user.webhook.send_webhook_for_news(news)
+        except DiscordWebhookStore.DoesNotExist:
+            pass
 
 
 def send_daily_newsletter():
@@ -21,7 +30,8 @@ def send_daily_newsletter():
         aware_yesterday = make_aware(yesterday)
 
         news = News.objects.filter(is_draft=False).filter(~Q(full_body_tts="")).filter(~Q(summary_tts="")).filter(
-            ~Q(summary="")).order_by('-created').filter(relevant_news__user=user).filter(created__gte=aware_yesterday).distinct()
+            ~Q(summary="")).order_by('-created').filter(relevant_news__user=user).filter(
+            created__gte=aware_yesterday).distinct()
 
         if news.count() == 0:
             continue
@@ -50,4 +60,3 @@ def send_daily_newsletter():
             print("Newsletter sent to: ", user.email)
         except Exception as e:
             print("ERROR SENDING NEWSLETTER EMAIL", e)
-

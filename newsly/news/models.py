@@ -167,10 +167,6 @@ class News(models.Model):
             print(user, is_rel)
             if is_rel:
                 RelevantNews.objects.get_or_create(user=user, news=self)
-                try:
-                    user.webhook.send_webhook_for_news(self)
-                except DiscordWebhookStore.DoesNotExist:
-                    pass
             else:
                 try:
                     RelevantNews.objects.get(user=user, news=self).delete()
@@ -254,6 +250,7 @@ class DiscordWebhookStore(models.Model):
         return f"{self.user}"
 
     def send_webhook_for_news(self, news: News):
+        print(news.cover_image.url)
         payload = {
             "username": "Newsly",
             "avatar_url": "https://i.imgur.com/4M34hi2.png",
@@ -265,6 +262,9 @@ class DiscordWebhookStore(models.Model):
                     },
                     "title": news.title,
                     "description": news.summary,
+                    "thumbnail": {
+                        "url": str(news.cover_image.url),
+                    }
                 }
             ]
         }

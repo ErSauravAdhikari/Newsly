@@ -3,6 +3,7 @@
 from django.contrib import admin
 from django_q.tasks import async_task
 
+from .helpers import send_news_in_discord
 from .models import Category, Tag, News, NewsInteraction, RelevantNews, DiscordWebhookStore
 
 admin.site.register(Category)
@@ -50,6 +51,7 @@ class NewsAdmin(admin.ModelAdmin):
     def process_news(self, request, queryset):
         for news in queryset:
             async_task(news.process_news)
+            async_task(send_news_in_discord(news))
 
         self.message_user(request, f"Processing has been initialized.", messages.SUCCESS)
 
