@@ -276,7 +276,6 @@ class DiscordWebhookStore(models.Model):
     def send_telegram_for_news(self, news: News):
         if self.telegram_id:
             news_image = news.cover_image.url if news.cover_image.url else "https://media.discordapp.net/attachments/1047848577386426412/1053345656288329778/Newsly_500x500.png"
-            news_image = "https://media.discordapp.net/attachments/1047848577386426412/1053345656288329778/Newsly_500x500.png"
             news_text = news.title + "\n\n" + news.summary
             settings.TG_BOT.send_photo(
                 chat_id=self.telegram_id,

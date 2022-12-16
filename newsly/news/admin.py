@@ -24,7 +24,7 @@ class NewsAdmin(admin.ModelAdmin):
         for news in queryset:
             news.is_draft = False
             news.save()
-            # async_task(send_news_in_discord(news))
+            async_task(send_news_in_discord(news))
             async_task(send_news_in_telegram(news))
 
     @admin.action(description="Only | Summary TTS")
