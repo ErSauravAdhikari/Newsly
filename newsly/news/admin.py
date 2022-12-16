@@ -51,7 +51,6 @@ class NewsAdmin(admin.ModelAdmin):
     def process_news(self, request, queryset):
         for news in queryset:
             async_task(news.process_news)
-            async_task(send_news_in_discord(news))
 
         self.message_user(request, f"Processing has been initialized.", messages.SUCCESS)
 

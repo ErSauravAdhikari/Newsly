@@ -12,6 +12,8 @@ from newsly.news.ai import get_tts, get_tts_ibm, get_summary, translate_to_nepal
 
 import requests
 
+from newsly.news.helpers import send_news_in_discord
+
 UserModel = settings.AUTH_USER_MODEL
 
 
@@ -155,6 +157,7 @@ class News(models.Model):
         self.get_tts_body()
         self.generate_relevancy()
         self.send_success_email_to_author()
+        send_news_in_discord(self)
 
     def generate_relevancy(self):
         """
