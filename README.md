@@ -1,4 +1,27 @@
 # Newsly
+
+## About
+This project was created as a part of a program at Leapfrog Technologies, INC. We were assigned a topic to Revamp and make it better. Our topc was News Portal, for which we won the 1st prize. 
+
+### Team
+The team comprised of 5 people with following distribution.
+
+![20221217_165415](https://user-images.githubusercontent.com/69170305/208281465-fc149d82-ce9e-4569-a670-1b3d97d85071.jpg)
+
+#### Backend Development
+Backend Development was solely handled by
+1. [Saurav Adhikari](https://github.com/ErSauravAdhikari/) (The owner of this repo). 
+
+#### Frontend Development
+The code for Frontend Development lies here: [Frontend Code](https://github.com/nadika18/Newsly_frontend/)
+The developers were:
+1. [Nadika Paudel](https://github.com/Nadika18)
+2. [Aabhusan Aryal](https://github.com/aabhusanaryal)
+3. [Yunika Bajracharya](https://github.com/Yunika-Bajracharya)
+
+## NOTE:
+**This project was created in a limited timescope. Hence, the code is not suitable to be referenced for any other purposes. We have cut many corners just to bring this project to life. As a result the code many not reflect the indrustry standard way of doing things or correct way to do those things.**
+
 ## How to use the software
 *It is assumed that you already have this software setup and running as per the instructions below.*
 
