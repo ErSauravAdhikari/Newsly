@@ -31,8 +31,7 @@ Please visit http://localhost:8000 (for self deployment) or https://newsly.asaur
 Login using the credentials that you have created at the setup phase.
 
 Now, after login you will be visited with the following fields.
-![img.png](newsly/static/docs/img.png)
-You can ignore those that have been marked with a cross.
+![image](https://user-images.githubusercontent.com/69170305/216320824-bc8a03f1-5909-4194-b6e4-f1b879be3d04.png)
 
 **The self interaction module is used to power the recommendation api, please don't manipulate it**
 
